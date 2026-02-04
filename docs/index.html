@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>THE-OM-PATEL Robot Docs</title>
+  <style>
+    :root {
+      --bg: #0f0f10;
+      --panel: #151517;
+      --panel-2: #1b1b1e;
+      --text: #e6e6e6;
+      --muted: #b1b1b1;
+      --accent: #9a9a9a;
+      --border: #2a2a2f;
+      --code-bg: #101012;
+      --code-border: #2e2e33;
+      --link: #cfcfcf;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; background: var(--bg); color: var(--text); font-family: "Segoe UI", Arial, sans-serif; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+    .sidebar {
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      padding: 20px 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .brand {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .nav-group { margin: 18px 0; }
+    .nav-title {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .nav-item { display: block; padding: 6px 8px; border-radius: 6px; }
+    .nav-item:hover { background: var(--panel-2); }
+    .content {
+      padding: 28px 40px 80px;
+    }
+    h1, h2, h3 {
+      color: var(--text);
+      margin: 0 0 12px 0;
+    }
+    h1 { font-size: 28px; }
+    h2 { font-size: 22px; margin-top: 32px; }
+    h3 { font-size: 18px; margin-top: 20px; }
+    p { color: var(--muted); line-height: 1.6; }
+    .card {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 10px;
+      margin: 14px 0;
+    }
+    code, pre {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      color: var(--text);
+      border-radius: 8px;
+    }
+    code { padding: 2px 6px; }
+    pre {
+      padding: 12px;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .table th, .table td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .table th { color: var(--text); font-weight: 600; }
+    .table td { color: var(--muted); }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #26262b;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .callout {
+      border-left: 3px solid var(--accent);
+      background: #121214;
+      padding: 10px 12px;
+      margin: 12px 0;
+      color: var(--muted);
+    }
+    .footer {
+      margin-top: 40px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">THE-OM-PATEL Docs</div>
+      <div class="nav-group">
+        <div class="nav-title">Getting Started</div>
+        <a class="nav-item" href="#overview">Overview</a>
+        <a class="nav-item" href="#structure">Project Structure</a>
+        <a class="nav-item" href="#quickstart">Quick Start</a>
+      </div>
+      <div class="nav-group">
+        <div class="nav-title">Core Modules</div>
+        <a class="nav-item" href="#driver-control">DriverControl</a>
+        <a class="nav-item" href="#pid">PIDController</a>
+        <a class="nav-item" href="#odom">OdometryTracker</a>
+      </div>
+      <div class="nav-group">
+        <div class="nav-title">Tuning Guides</div>
+        <a class="nav-item" href="#pid-tuning">PID Tuning</a>
+        <a class="nav-item" href="#odom-tuning">Odometry Tuning</a>
+      </div>
+      <div class="nav-group">
+        <div class="nav-title">Examples</div>
+        <a class="nav-item" href="#examples">Usage Examples</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <h1 id="overview">Overview</h1>
+      <p>
+        This documentation explains how to use the core modules in this VEX EXP
+        project and how to tune the PID and odometry parameters. It is written
+        for new team members who need a quick, practical reference while coding.
+      </p>
+      <div class="card">
+        <div class="badge">Project</div>
+        <p>
+          This workspace contains reusable building blocks for driver control,
+          PID control, and basic odometry. The main program wires them together
+          in <strong>src/main.cpp</strong>.
+        </p>
+      </div>
+
+      <h2 id="structure">Project Structure</h2>
+      <table class="table">
+        <thead>
+          <tr><th>Path</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>src/main.cpp</td><td>Entry point for the program and competition callbacks.</td></tr>
+          <tr><td>include/DriverControl.h</td><td>Driver control shaping (arcade, tank, etc.).</td></tr>
+          <tr><td>include/PIDController.h</td><td>Reusable PID controller class.</td></tr>
+          <tr><td>include/OdometryTracker.h</td><td>Basic 2D odometry tracking.</td></tr>
+          <tr><td>include/vex.h</td><td>VEX EXP C++ API includes.</td></tr>
+          <tr><td>docs/index.html</td><td>This documentation.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="quickstart">Quick Start</h2>
+      <div class="card">
+        <ol>
+          <li>Open <strong>src/main.cpp</strong>.</li>
+          <li>Configure devices (motors, sensors, IMU).</li>
+          <li>Set your PID gains for drive and turn.</li>
+          <li>Update odometry in a loop during autonomous.</li>
+        </ol>
+      </div>
+
+      <h2 id="driver-control">DriverControl</h2>
+      <p>
+        The <code>DriverControl</code> class reads controller input, applies a
+        deadzone and an exponential curve, and converts it into left/right motor
+        outputs. Supported control styles include Arcade, Tank, Split Arcade,
+        Curvature, and Single Stick.
+      </p>
+      <div class="card">
+        <h3>Constructor</h3>
+        <pre><code>DriverControl driverControl(ControlType::ARCADE, 10, 2.0, 60, 40);</code></pre>
+        <ul>
+          <li><strong>ControlType</strong>: Choose your driving style.</li>
+          <li><strong>deadzone</strong>: Joystick deadband in percent.</li>
+          <li><strong>exponent</strong>: Input shaping (higher = finer low end).</li>
+          <li><strong>turnSensitivity</strong>: Normal turn scaling.</li>
+          <li><strong>slowTurnSensitivity</strong>: Slow turn scaling.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Usage</h3>
+        <pre><code>double left = 0, right = 0;
+driverControl.calculate(Controller1, left, right);
+// Apply left/right to your drive motors.</code></pre>
+      </div>
+
+      <h2 id="pid">PIDController</h2>
+      <p>
+        The <code>PIDController</code> class computes a control signal using
+        proportional, integral, and derivative terms. It also supports integral
+        windup limiting and an error tolerance check.
+      </p>
+      <div class="card">
+        <h3>Fields</h3>
+        <table class="table">
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>kP, kI, kD</td><td>PID gains.</td></tr>
+            <tr><td>maxIntegral</td><td>Integral clamp to reduce windup.</td></tr>
+            <tr><td>tolerance</td><td>Target window for <code>atTarget()</code>.</td></tr>
+            <tr><td>lastP, lastI, lastD</td><td>Most recent term values.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Compute Output</h3>
+        <pre><code>PIDController drivePID(0.4, 0.0, 0.12);
+
+// error = target - current
+double output = drivePID.calculate(error, dt);</code></pre>
+      </div>
+
+      <h2 id="odom">OdometryTracker</h2>
+      <p>
+        The <code>OdometryTracker</code> tracks an (x, y) position and heading
+        using left/right distances and the IMU heading. It uses a simple average
+        distance model suitable for many VEX drivetrains.
+      </p>
+      <div class="card">
+        <h3>Update Pose</h3>
+        <pre><code>// leftDist/rightDist are in the same units (inches or mm)
+odometry.update(leftDist, rightDist, IMU.heading());</code></pre>
+      </div>
+      <div class="card">
+        <h3>Read Pose</h3>
+        <pre><code>double x = odometry.x;
+double y = odometry.y;
+double heading = odometry.heading;</code></pre>
+      </div>
+
+      <h2 id="pid-tuning">PID Tuning Guide</h2>
+      <p>
+        This project provides two PID controllers in <strong>src/main.cpp</strong>:
+        one for drive distance and one for turning.
+      </p>
+      <div class="callout">
+        Start with only <strong>P</strong>, then add <strong>D</strong> to reduce
+        overshoot, then add a small <strong>I</strong> if needed to remove steady-state error.
+      </div>
+      <div class="card">
+        <h3>Where to Change Gains</h3>
+        <pre><code>PIDController drivePID(0.4, 0.0, 0.12);
+PIDController turnPID(0.6, 0.0, 0.18);</code></pre>
+        <p>Adjust the numbers based on robot response.</p>
+      </div>
+      <div class="card">
+        <h3>Key PID Parameters</h3>
+        <ul>
+          <li><strong>kP</strong>: Increase for faster response; too high causes oscillation.</li>
+          <li><strong>kD</strong>: Damps oscillation and reduces overshoot.</li>
+          <li><strong>kI</strong>: Fixes bias (drift) but can cause slow oscillation.</li>
+          <li><strong>maxIntegral</strong>: Clamp integral to avoid windup.</li>
+          <li><strong>tolerance</strong>: Set to the error window you consider “close enough.”</li>
+        </ul>
+      </div>
+
+      <h2 id="odom-tuning">Odometry Tuning Guide</h2>
+      <p>
+        The odometry implementation uses the average of left and right distances
+        and the IMU heading for orientation. This makes it simple and stable but
+        depends on accurate distance measurements.
+      </p>
+      <div class="card">
+        <h3>Where to Change Odometry Parameters</h3>
+        <pre><code>// In OdometryTracker.h
+// wheelBase = distance between left and right wheels
+// trackingWheelRadius = radius of tracking wheels
+odometry.wheelBase = 10;
+odometry.trackingWheelRadius = 3.25;</code></pre>
+        <p>
+          If you use encoders or tracking wheels, compute distances in real-world units
+          (inches or mm) before calling <code>update()</code>.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Best Practices</h3>
+        <ul>
+          <li>Calibrate the IMU before autonomous starts.</li>
+          <li>Reset odometry at the start of autonomous.</li>
+          <li>Use consistent units for distance.</li>
+          <li>Verify heading direction matches your coordinate system.</li>
+        </ul>
+      </div>
+
+      <h2 id="examples">Usage Examples</h2>
+      <div class="card">
+        <h3>Drive PID Loop (Skeleton)</h3>
+        <pre><code>// Example loop in autonomous
+odometry.reset();
+
+double targetDist = 24.0; // inches
+while (true) {
+  double currentDist = odometry.distanceTo(targetDist, 0.0);
+  double error = targetDist - currentDist;
+  double output = drivePID.calculate(error, 0.02);
+
+  // Apply output to motors here
+
+  if (drivePID.atTarget(error)) break;
+  vex::task::sleep(20);
+}</code></pre>
+      </div>
+      <div class="card">
+        <h3>Turn PID Loop (Skeleton)</h3>
+        <pre><code>double targetHeading = 90.0; // degrees
+while (true) {
+  double error = targetHeading - IMU.heading();
+  double output = turnPID.calculate(error, 0.02);
+
+  // Apply output to left/right motors here (opposite signs)
+
+  if (turnPID.atTarget(error)) break;
+  vex::task::sleep(20);
+}</code></pre>
+      </div>
+
+      <div class="footer">
+        Built for THE-OM-PATEL • Dark grayscale theme inspired by the VEX documentation style.
+      </div>
+    </main>
+  </div>
+</body>
+</html>

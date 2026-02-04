@@ -1,0 +1,19 @@
+{
+	"extension": {
+		"version": "0.8.2026011200",
+		"json": 2
+	},
+	"project": {
+		"name": "THE-OM-PATEL",
+		"description": "A custom template with classes of custom PID, ODOM and Drive Control. Developed by Om Patel",
+		"creationDate": "2/2/2026, 10:07:12 PM",
+		"platform": "EXP",
+		"language": "cpp",
+		"slot": 1,
+		"sdkVersion": "EXP_20240802_15_00_00",
+		"cpp": {
+			"includePath": [],
+			"printf_float": true
+		}
+	}
+}
